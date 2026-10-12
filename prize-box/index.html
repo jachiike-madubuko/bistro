@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABC Prize Box</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --bg:#faf6ef; --card:#fff; --ink:#1f1b16; --muted:#6b6258; --line:#e4dccf; --accent:#8a4b1c; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#1c1814; --card:#26211c; --ink:#f3ece1; --muted:#b3a899; --line:#3a332b; --accent:#e0a56b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.45 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:1.7rem; margin:0 0 4px; }
+  .sub { color:var(--muted); margin:0 0 20px; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:18px; }
+  h2 { font-size:1.1rem; margin:0 0 4px; }
+  .hint { color:var(--muted); font-size:.92rem; margin:0 0 12px; }
+  iframe { width:100%; border:0; border-radius:8px; background:transparent; display:block; }
+  #addFrame { height:640px; }
+  #listFrame { height:520px; }
+  .setup { border:2px dashed var(--line); border-radius:10px; padding:14px; color:var(--muted); font-size:.95rem; }
+  .setup[hidden], iframe[hidden] { display:none; }
+  footer { color:var(--muted); font-size:.85rem; text-align:center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ABC Prize Box</h1>
+  <p class="sub">What should the winners get? Add your idea. Approved ideas show up below.</p>
+
+  <section>
+    <h2>Add an idea</h2>
+    <p class="hint">Candy, toys, gift cards to certain stores, accessories, anything small. No name needed. Ideas appear on the list after approval.</p>
+    <div id="addSetup" class="setup" hidden>The add form is not connected yet.</div>
+    <iframe id="addFrame" title="Add a prize idea" loading="lazy" hidden></iframe>
+  </section>
+
+  <section>
+    <h2>Approved ideas</h2>
+    <p class="hint">Updates on its own when new ideas are approved.</p>
+    <div id="listSetup" class="setup" hidden>The approved list is not connected yet.</div>
+    <iframe id="listFrame" title="Approved prize ideas" loading="lazy" hidden></iframe>
+  </section>
+
+  <footer>Courtyard Bozeman Bistro</footer>
+</main>
+
+<script>
+  // Paste the Airtable share links here (full link or just the shrXXXX id).
+  // Form: Airtable form view > Share form. List: grid view "Approved" > Share view.
+  var ADD_FORM_URL = "";
+  var APPROVED_LIST_URL = "";
+
+  function embed(value, frameId, setupId) {
+    var frame = document.getElementById(frameId), setup = document.getElementById(setupId);
+    var m = /(shr[A-Za-z0-9]{14})/.exec(value || "");
+    if (!m) { setup.hidden = false; return; }
+    frame.src = "https://airtable.com/embed/" + m[1];
+    frame.hidden = false;
+  }
+  embed(ADD_FORM_URL, "addFrame", "addSetup");
+  embed(APPROVED_LIST_URL, "listFrame", "listSetup");
+</script>
+</body>
+</html>
